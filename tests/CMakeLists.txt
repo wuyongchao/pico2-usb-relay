@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.20)
+project(relay_protocol_host_test C)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
+add_executable(relay_protocol_test relay_protocol_test.c ../src/relay_protocol.c)
+target_include_directories(relay_protocol_test PRIVATE ../src)
+target_compile_options(relay_protocol_test PRIVATE -Wall -Wextra -Werror)
+
+enable_testing()
+add_test(NAME relay_protocol_test COMMAND relay_protocol_test)
