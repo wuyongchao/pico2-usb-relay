@@ -18,7 +18,7 @@ jobs:
     name: Host tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Configure
         run: >-
           cmake -S tests -B build-host
@@ -33,7 +33,7 @@ jobs:
     name: Pico 2 firmware
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install build dependencies
         run: |
           sudo apt-get update
