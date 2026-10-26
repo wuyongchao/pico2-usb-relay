@@ -49,12 +49,12 @@ jobs:
       - name: Package release assets
         run: |
           mkdir -p release
-          cp build/pico2_usbrelay.uf2 release/
+          cp build/pico2_usb_relay.uf2 release/
           cp LICENSE release/
           cp LICENSE-NOTES.md release/
           cp CHANGELOG.md release/
-          (cd release && sha256sum pico2_usbrelay.uf2 > SHA256SUMS.txt)
-          "$RUNNER_TEMP/picotool/picotool/picotool" info -a release/pico2_usbrelay.uf2
+          (cd release && sha256sum pico2_usb_relay.uf2 > SHA256SUMS.txt)
+          "$RUNNER_TEMP/picotool/picotool/picotool" info -a release/pico2_usb_relay.uf2
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
@@ -78,7 +78,7 @@ jobs:
           body_path: CHANGELOG.md
           draft: true
           files: |
-            release/pico2_usbrelay.uf2
+            release/pico2_usb_relay.uf2
             release/SHA256SUMS.txt
             release/LICENSE
             release/LICENSE-NOTES.md

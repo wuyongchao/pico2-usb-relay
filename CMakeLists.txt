@@ -29,7 +29,7 @@ if(NOT DEFINED PICO_BOARD)
     set(PICO_BOARD pico2 CACHE STRING "Raspberry Pi Pico board target")
 endif()
 
-project(pico2_usbrelay VERSION ${USBRELAY_VERSION} LANGUAGES C CXX ASM)
+project(pico2_usb_relay VERSION ${USBRELAY_VERSION} LANGUAGES C CXX ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -70,13 +70,13 @@ target_include_directories(relay_protocol PUBLIC src)
 target_compile_features(relay_protocol PUBLIC c_std_11)
 target_compile_options(relay_protocol PRIVATE -Wall -Wextra -Wpedantic -Werror)
 
-add_executable(pico2_usbrelay
+add_executable(pico2_usb_relay
     src/main.c
     src/usb_descriptors.c
 )
-target_include_directories(pico2_usbrelay PRIVATE src)
-target_compile_features(pico2_usbrelay PRIVATE c_std_11)
-target_compile_definitions(pico2_usbrelay PRIVATE
+target_include_directories(pico2_usb_relay PRIVATE src)
+target_compile_features(pico2_usb_relay PRIVATE c_std_11)
+target_compile_definitions(pico2_usb_relay PRIVATE
     PICO_FLASH_ASSUME_CORE0_SAFE=1
     USBRELAY_CH1_GPIO=${USBRELAY_CH1_GPIO}
     USBRELAY_ACTIVE_LOW=$<BOOL:${USBRELAY_ACTIVE_LOW}>
@@ -88,8 +88,8 @@ target_compile_definitions(pico2_usbrelay PRIVATE
     USBRELAY_PRODUCT="${USBRELAY_PRODUCT}"
     USBRELAY_VERSION="${PROJECT_VERSION}"
 )
-target_compile_options(pico2_usbrelay PRIVATE -Wall -Wextra -Werror)
-target_link_libraries(pico2_usbrelay PRIVATE
+target_compile_options(pico2_usb_relay PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(pico2_usb_relay PRIVATE
     relay_protocol
     pico_stdlib
     pico_flash
@@ -98,6 +98,6 @@ target_link_libraries(pico2_usbrelay PRIVATE
     tinyusb_board
 )
 
-pico_enable_stdio_uart(pico2_usbrelay 0)
-pico_enable_stdio_usb(pico2_usbrelay 0)
-pico_add_extra_outputs(pico2_usbrelay)
+pico_enable_stdio_uart(pico2_usb_relay 0)
+pico_enable_stdio_usb(pico2_usb_relay 0)
+pico_add_extra_outputs(pico2_usb_relay)

@@ -1,9 +1,9 @@
 # Pico 2 USB Relay
 
-An open-source RP2350 firmware that presents one relay through the DCTTech
-HID protocol used by `usbrelay`. It is built with the Raspberry Pi Pico SDK
-and TinyUSB, and is intended as a compact USB-controlled relay interface for
-bench automation and low-voltage switching.
+Turn a Raspberry Pi Pico 2 into a USB-controlled relay. This open-source
+RP2350 firmware exposes one relay through the DCTTech HID protocol used by
+`usbrelay`, with build-time GPIO, polarity, relay ID, and USB identity
+settings. It is intended for bench automation and low-voltage switching.
 
 > **Hardware status:** USB enumeration and report handling have been validated
 > against the Windows utility described below. The GPIO output and relay load
@@ -60,8 +60,8 @@ release build, without the leading `v`.
 Build products include:
 
 ```text
-build/pico2_usbrelay.uf2
-build/pico2_usbrelay.elf
+build/pico2_usb_relay.uf2
+build/pico2_usb_relay.elf
 ```
 
 The UF2 file is intentionally generated rather than committed. GitHub Actions
@@ -71,7 +71,7 @@ attaches it to tagged releases.
 
 1. Hold **BOOTSEL** while connecting the Pico 2.
 2. Release **BOOTSEL** after the `RP2350` mass-storage device appears.
-3. Copy `build/pico2_usbrelay.uf2` to that device.
+3. Copy `build/pico2_usb_relay.uf2` to that device.
 
 The board reboots automatically. For a manual flash, follow the Pico SDK
 `picotool` instructions.

@@ -56,16 +56,16 @@ jobs:
         run: cmake --build build --parallel
       - name: Verify firmware image
         run: |
-          test -s build/pico2_usbrelay.uf2
-          test -s build/pico2_usbrelay.elf
-          "$RUNNER_TEMP/picotool/picotool/picotool" info -a build/pico2_usbrelay.uf2
-          sha256sum build/pico2_usbrelay.uf2 | tee build/SHA256SUMS.txt
+          test -s build/pico2_usb_relay.uf2
+          test -s build/pico2_usb_relay.elf
+          "$RUNNER_TEMP/picotool/picotool/picotool" info -a build/pico2_usb_relay.uf2
+          sha256sum build/pico2_usb_relay.uf2 | tee build/SHA256SUMS.txt
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: pico2-usbrelay
           if-no-files-found: error
           path: |
-            build/pico2_usbrelay.uf2
-            build/pico2_usbrelay.elf
+            build/pico2_usb_relay.uf2
+            build/pico2_usb_relay.elf
             build/SHA256SUMS.txt
