@@ -18,7 +18,7 @@ jobs:
     name: Host tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Configure
         run: >-
           cmake -S tests -B build-host
@@ -33,7 +33,7 @@ jobs:
     name: Pico 2 firmware
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install build dependencies
         run: |
           sudo apt-get update
@@ -61,7 +61,7 @@ jobs:
           "$RUNNER_TEMP/picotool/picotool/picotool" info -a build/pico2_usb_relay.uf2
           sha256sum build/pico2_usb_relay.uf2 | tee build/SHA256SUMS.txt
       - name: Upload firmware
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pico2-usbrelay
           if-no-files-found: error
