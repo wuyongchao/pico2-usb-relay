@@ -1,10 +1,26 @@
+// SPDX-License-Identifier: MIT
+
 #include "usb_descriptors.h"
 
 #include "tusb.h"
 #include "relay_protocol.h"
 
+#ifndef USBRELAY_VID
 #define USBRELAY_VID 0x16C0
+#endif
+#ifndef USBRELAY_PID
 #define USBRELAY_PID 0x05DF
+#endif
+#ifndef USBRELAY_MANUFACTURER
+#define USBRELAY_MANUFACTURER "www.dcttech.com"
+#endif
+#ifndef USBRELAY_PRODUCT
+#define USBRELAY_PRODUCT "USBRelay1"
+#endif
+#ifndef USBRELAY_VERSION
+#define USBRELAY_VERSION "0.1.0"
+#endif
+
 #define USBRELAY_BCD_USB 0x0110
 #define USBRELAY_BCD_DEVICE 0x0100
 
@@ -21,7 +37,7 @@ tusb_desc_device_t const desc_device = {
     .bcdDevice = USBRELAY_BCD_DEVICE,
     .iManufacturer = 1,
     .iProduct = 2,
-    .iSerialNumber = 0,
+    .iSerialNumber = 3,
     .bNumConfigurations = 1,
 };
 
@@ -85,9 +101,9 @@ uint16_t usbrelay_hid_report_descriptor_length(void) {
 
 char const *const string_desc_arr[] = {
     (const char[]){0x09, 0x04},
-    "www.dcttech.com",
-    "USBRelay1",
-    NULL,
+    USBRELAY_MANUFACTURER,
+    USBRELAY_PRODUCT,
+    USBRELAY_VERSION,
 };
 
 uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
@@ -104,7 +120,7 @@ uint16_t const *tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         if (str == NULL) {
             return NULL;
         }
-        while (str[count] != '\0' && count < 31) {
+        while (count < 31u && str[count] != '\0') {
             desc_str[count + 1] = (uint8_t)str[count];
             ++count;
         }

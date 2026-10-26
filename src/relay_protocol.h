@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #ifndef RELAY_PROTOCOL_H
 #define RELAY_PROTOCOL_H
 

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Upstream Pico SDK issues
+    url: https://github.com/raspberrypi/pico-sdk/issues
+    about: Report problems in the external SDK here rather than in this project.

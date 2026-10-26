@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include "relay_protocol.h"
 
 #include <stdio.h>
@@ -136,6 +138,13 @@ static void test_windows_all_channels(void) {
 }
 
 int main(void) {
+    uint8_t report[RELAY_REPORT_SIZE];
+    relay_device_init(NULL, "PICO1", 1, NULL, NULL);
+    relay_build_feature(NULL, report);
+    for (size_t i = 0; i < sizeof(report); ++i) {
+        CHECK(report[i] == 0);
+    }
+
     test_feature_layout();
     test_usbrelay_wire_layout();
     test_on_off_and_invalid();

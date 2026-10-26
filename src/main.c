@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include <stdint.h>
 #include <string.h>
 
@@ -22,6 +24,12 @@
 #endif
 
 #define RELAY_CHANNEL_COUNT 1u
+static const char default_relay_id[] = USBRELAY_RELAY_ID;
+_Static_assert(sizeof(default_relay_id) == RELAY_ID_SIZE + 1u,
+               "USBRELAY_RELAY_ID must contain exactly five characters");
+_Static_assert(USBRELAY_CH1_GPIO >= 0 && USBRELAY_CH1_GPIO < NUM_BANK0_GPIOS,
+               "USBRELAY_CH1_GPIO must be a valid RP2350 GPIO");
+
 #if USBRELAY_PERSIST_ID
 #define RELAY_STORAGE_MAGIC 0x31524450u
 #define RELAY_STORAGE_OFFSET (PICO_FLASH_SIZE_BYTES - FLASH_SECTOR_SIZE)
@@ -56,7 +64,7 @@ static uint32_t storage_checksum(uint32_t magic,
 #endif
 
 static void load_relay_id(uint8_t id[RELAY_ID_SIZE]) {
-    memcpy(id, USBRELAY_RELAY_ID, RELAY_ID_SIZE);
+    memcpy(id, default_relay_id, RELAY_ID_SIZE);
 #if USBRELAY_PERSIST_ID
     relay_storage_t stored;
     memcpy(&stored, (const void *)(XIP_BASE + RELAY_STORAGE_OFFSET),
@@ -83,6 +91,11 @@ static void gpio_write_logical(void *context, unsigned channel, bool on) {
 
 static void relay_gpio_init(void) {
     gpio_init(USBRELAY_CH1_GPIO);
+#if USBRELAY_ACTIVE_LOW
+    gpio_put(USBRELAY_CH1_GPIO, 1);
+#else
+    gpio_put(USBRELAY_CH1_GPIO, 0);
+#endif
     gpio_write_logical(NULL, 1, false);
     gpio_set_dir(USBRELAY_CH1_GPIO, GPIO_OUT);
 }

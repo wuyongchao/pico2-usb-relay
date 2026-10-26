@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 #include "relay_protocol.h"
 
 #include <string.h>
@@ -21,6 +23,9 @@ bool relay_id_is_valid(const uint8_t id[RELAY_ID_SIZE]) {
 void relay_device_init(relay_device_t *device, const char id[RELAY_ID_SIZE],
                        uint8_t channel_count, relay_output_fn output,
                        void *output_context) {
+    if (device == NULL) {
+        return;
+    }
     memset(device, 0, sizeof(*device));
     if (id != NULL) {
         memcpy(device->id, id, RELAY_ID_SIZE);
@@ -90,7 +95,13 @@ relay_result_t relay_process_output(relay_device_t *device,
 
 void relay_build_feature(const relay_device_t *device,
                          uint8_t out[RELAY_REPORT_SIZE]) {
+    if (out == NULL) {
+        return;
+    }
     memset(out, 0, RELAY_REPORT_SIZE);
+    if (device == NULL) {
+        return;
+    }
     memcpy(out, device->id, RELAY_ID_SIZE);
     out[7] = device->state;
 }

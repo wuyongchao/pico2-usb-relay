@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  host-tests:
+    name: Host tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: >-
+          cmake -S tests -B build-host
+          -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_C_FLAGS="-Werror"
+      - name: Build
+        run: cmake --build build-host --parallel
+      - name: Test
+        run: ctest --test-dir build-host --output-on-failure
+
+  firmware:
+    name: Pico 2 firmware
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            build-essential cmake gcc-arm-none-eabi git \
+            libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib \
+            ninja-build python3
+      - name: Check out Pico SDK
+        run: |
+          git clone --depth 1 --branch 2.3.1 \
+            --recurse-submodules \
+            https://github.com/raspberrypi/pico-sdk.git "$RUNNER_TEMP/pico-sdk"
+          echo "PICO_SDK_PATH=$RUNNER_TEMP/pico-sdk" >> "$GITHUB_ENV"
+          echo "PICOTOOL_FETCH_FROM_GIT_PATH=$RUNNER_TEMP/picotool" >> "$GITHUB_ENV"
+      - name: Configure
+        run: >-
+          cmake -S . -B build -G Ninja
+          -DCMAKE_BUILD_TYPE=Release -DPICO_BOARD=pico2
+      - name: Build
+        run: cmake --build build --parallel
+      - name: Verify firmware image
+        run: |
+          test -s build/pico2_usbrelay.uf2
+          test -s build/pico2_usbrelay.elf
+          "$RUNNER_TEMP/picotool/picotool/picotool" info -a build/pico2_usbrelay.uf2
+          sha256sum build/pico2_usbrelay.uf2 | tee build/SHA256SUMS.txt
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: pico2-usbrelay
+          if-no-files-found: error
+          path: |
+            build/pico2_usbrelay.uf2
+            build/pico2_usbrelay.elf
+            build/SHA256SUMS.txt

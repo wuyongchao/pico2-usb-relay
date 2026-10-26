@@ -1,0 +1,51 @@
+name: Bug report
+description: Report a reproducible firmware, protocol, or build problem.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets or private information. For a security issue,
+        follow SECURITY.md instead of opening this form.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Host OS, toolchain, Pico SDK, and board.
+      placeholder: Ubuntu 24.04, GCC 13.2.1, Pico SDK 2.3.1, Pico 2
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Include the configure command and host command used.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs and USB evidence
+      description: Include relevant output after removing sensitive information.
+      render: shell
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Hardware safety
+      options:
+        - label: I have not connected a mains-voltage load while diagnosing this issue.
+          required: true

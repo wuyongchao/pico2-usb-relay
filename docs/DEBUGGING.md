@@ -98,10 +98,10 @@ Descriptor 1 : ERROR_GEN_FAILURE
 
 ## 5. Windows 原工具分析
 
-目标程序：
+目标程序（路径已脱敏）：
 
 ```text
-F:\下载\usbrelay-v1.0.3\usbrelay.exe
+<usbrelay-v1.0.3>\usbrelay.exe
 SHA-256: fec04a099b7966b88cfb7615aa943afa18cf26ac7dbb4e5a0bce62753d6c96ac
 ```
 
@@ -226,14 +226,8 @@ cmake --build build-host --parallel
 ctest --test-dir build-host --output-on-failure
 ```
 
-最终发布镜像：
-
-```text
-artifacts/pico2_usbrelay.uf2
-SHA-256: 5639e2e53a51eae19579f4a8a4d8a2927ab096550a22710e5c93a67aa8915b82
-```
-
-`picotool` 验证信息：
+构建产物由本地构建或 GitHub Release 生成，不提交到源码仓库。`picotool`
+验证信息示例：
 
 ```text
 target chip : RP2350
