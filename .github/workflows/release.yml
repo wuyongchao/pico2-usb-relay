@@ -56,7 +56,7 @@ jobs:
           (cd release && sha256sum pico2_usb_relay.uf2 > SHA256SUMS.txt)
           "$RUNNER_TEMP/picotool/picotool/picotool" info -a release/pico2_usb_relay.uf2
       - name: Upload firmware
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pico2-usbrelay-release
           if-no-files-found: error

@@ -61,7 +61,7 @@ jobs:
           "$RUNNER_TEMP/picotool/picotool/picotool" info -a build/pico2_usb_relay.uf2
           sha256sum build/pico2_usb_relay.uf2 | tee build/SHA256SUMS.txt
       - name: Upload firmware
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pico2-usbrelay
           if-no-files-found: error
