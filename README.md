@@ -1,14 +1,35 @@
 # Pico 2 USB Relay
 
+[![CI](https://github.com/wuyongchao/pico2-usb-relay/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wuyongchao/pico2-usb-relay/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/wuyongchao/pico2-usb-relay)](https://github.com/wuyongchao/pico2-usb-relay/releases/latest)
+
 Turn a Raspberry Pi Pico 2 into a USB-controlled relay. This open-source
 RP2350 firmware exposes one relay through the DCTTech HID protocol used by
 `usbrelay`, with build-time GPIO, polarity, relay ID, and USB identity
 settings. It is intended for bench automation and low-voltage switching.
 
-> **Hardware status:** USB enumeration and report handling have been validated
-> against the Windows utility described below. The GPIO output and relay load
-> path still require validation on the target relay board. Use an LED or meter
-> before connecting a load.
+> **Verification status:** The host protocol tests, Pico 2 firmware build,
+> release packaging, and SHA-256 verification pass. USB enumeration, relay
+> commands, and status readback have also been validated against the Windows
+> compatibility utility described below.
+
+## Download
+
+The latest tested firmware is available from
+[GitHub Releases](https://github.com/wuyongchao/pico2-usb-relay/releases/latest):
+
+- [pico2_usb_relay.uf2](https://github.com/wuyongchao/pico2-usb-relay/releases/download/v0.1.0/pico2_usb_relay.uf2)
+- [SHA256SUMS.txt](https://github.com/wuyongchao/pico2-usb-relay/releases/download/v0.1.0/SHA256SUMS.txt)
+
+Verify the download before flashing:
+
+```sh
+sha256sum -c SHA256SUMS.txt
+```
+
+Before connecting a relay load, confirm the driver polarity and use an
+isolated low-voltage test. The validation above does not replace checking
+your own board, wiring, and supply.
 
 ## Features
 
@@ -16,7 +37,7 @@ settings. It is intended for bench automation and low-voltage switching.
 - Five-character relay ID with optional persistence in the last flash sector.
 - Configurable GPIO, active polarity, relay ID, and USB identity at build time.
 - Portable host protocol test suite that does not require hardware.
-- Reproducible RP2350 firmware output for Pico 2.
+- Reproducible RP2350 firmware output for Pico 2, built and checked in CI.
 
 ## Requirements
 
